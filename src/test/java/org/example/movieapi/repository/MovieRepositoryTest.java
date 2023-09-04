@@ -108,6 +108,31 @@ class MovieRepositoryTest {
         movieRepository.flush(); // SQL: 'update' table play
 
         // TODO: verify
+    }
+
+    @Test
+    void testReadOk() {
+        var movieId = movieOppenheimer.getId();
+        // read from DB
+        var optMovie = movieRepository.findById(movieId);
+        assertTrue(optMovie.isPresent(), "Movie with id " + movieId + " exists in DB");
+        var movie = optMovie.get();
+        assertAll(
+                () -> assertEquals(movieId, movie.getId(), "movie id"),
+                () -> assertEquals(movieOppenheimer.getTitle(), movie.getTitle(), "movie title")
+        );
+    }
+
+    @Test
+    void testReadKo() {
+        var movieId = 0;
+        // read from DB
+        var optMovie = movieRepository.findById(movieId);
+        assertTrue(optMovie.isEmpty(), "No movie with id 0");
+    }
+
+    @Test
+    void testDelete() {
 
     }
 }
