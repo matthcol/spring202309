@@ -134,7 +134,7 @@ class MovieRepositoryTest {
     @Test
     void testDeleteIdExists() {
         var movieId = movieOppenheimer.getId();
-        movieRepository.deleteById(movieId); // select + delete
+        movieRepository.deleteById(movieId); // select + delete from play + delete from movie
         movieRepository.flush();
     }
 

@@ -20,7 +20,7 @@ import java.util.Set;
 @ToString(exclude = {"director", "actors"}) // whitelist: of = {...}
 // JPA
 @Entity
-@Table(name="movie") // customization
+@Table(name="movies") // customization
 public class Movie {
     // strategies:
     // - SEQUENCE: fetch id before INSERT

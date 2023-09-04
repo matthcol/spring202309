@@ -16,7 +16,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @ToString
 // JPA
 @Entity
-@Table(name = "person")
+@Table(name = "persons")
 public class Person {
 
     @Id
