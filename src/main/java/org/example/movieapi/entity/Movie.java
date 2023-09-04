@@ -37,14 +37,14 @@ public class Movie {
     // @Transient
     private Short duration;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name="director_id", nullable = false)
     private Person director;
 
     // lombok
     @Builder.Default
     // JPA
-    @ManyToMany
+    @ManyToMany // default: fetch = FetchType.LAZY
     @JoinTable(name = "play",
             joinColumns = @JoinColumn(name ="movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")

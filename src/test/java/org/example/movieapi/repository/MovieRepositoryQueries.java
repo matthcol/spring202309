@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.stream.Stream;
 
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = NONE)
@@ -28,6 +29,11 @@ public class MovieRepositoryQueries {
         int movieId = 5257;
         var optMovie = movieRepository.findById(movieId);
         System.out.println(optMovie);
+        var movie = optMovie.get();
+        System.out.println("director: " + movie.getDirector());
+        System.out.println("actors:");
+        movie.getActors()
+                .forEach(actor -> System.out.println("\t- " + actor));
     }
 
     static Stream<Example<Movie>> movieExampleSource() {
@@ -44,10 +50,20 @@ public class MovieRepositoryQueries {
                                 .build(),
                         ExampleMatcher.matching()
                                 .withIgnorePaths("year")
+                ),
+                // title: star (partial, case insensitive)
+                Example.of(
+                        Movie.builder()
+                                .title("star")
+                                .build(),
+                        ExampleMatcher.matching()
+                                .withMatcher("title", contains().ignoreCase())
+                                .withIgnorePaths("year")
                 )
         );
     }
 
+    // doc: https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#query-by-example
     @ParameterizedTest
     @MethodSource("movieExampleSource")
     void findByExample(Example<Movie> movieExample) {
