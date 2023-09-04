@@ -132,7 +132,16 @@ class MovieRepositoryTest {
     }
 
     @Test
-    void testDelete() {
+    void testDeleteIdExists() {
+        var movieId = movieOppenheimer.getId();
+        movieRepository.deleteById(movieId); // select + delete
+        movieRepository.flush();
+    }
 
+    @Test
+    void testDeleteIdNotExists() {
+        var movieId = 0;
+        movieRepository.deleteById(movieId); // only select , no error
+        movieRepository.flush();
     }
 }
