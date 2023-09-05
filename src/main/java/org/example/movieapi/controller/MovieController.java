@@ -18,7 +18,7 @@ public class MovieController {
 
     @GetMapping("{id}")
     public MovieDetail getById(@PathVariable("id") int id){
-        // TODO
-        return null;
+        return movieService.getById(id)
+                .get(); // provisoire
     }
 }

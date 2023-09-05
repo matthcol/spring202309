@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
@@ -49,9 +50,14 @@ class MovieControllerTest {
         String url = BASE_URL + "/{id}";
         mockMvc.perform(MockMvcRequestBuilders.get(url, id)
                 .accept(MediaType.APPLICATION_JSON)
-        ).andDo(MockMvcResultHandlers.print());
-
+        )
+                .andDo(MockMvcResultHandlers.print())
         // verify response
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id));
+                // verify other properties
 
         // verify mock service has been called
         BDDMockito.then(movieService)
@@ -60,8 +66,24 @@ class MovieControllerTest {
     }
 
     @Test
-    void getById_whenNotFound() {
-
+    void getById_whenNotFound() throws Exception {
+        int id = 321;
+        var optMovie = Optional.<MovieDetail>empty();
+        BDDMockito.given(movieService.getById(id))
+                .willReturn(optMovie);
+        // call controller with mockMvc
+        String url = BASE_URL + "/{id}";
+        mockMvc.perform(MockMvcRequestBuilders.get(url, id)
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                // verify response
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                // TODO: verify json error messaqe
+        // verify mock service has been called
+        BDDMockito.then(movieService)
+                .should()
+                .getById(id);
     }
 
 }
