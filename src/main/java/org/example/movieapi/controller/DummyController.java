@@ -18,6 +18,11 @@ public class DummyController {
         return "Coucou";
     }
 
+    /**
+     * @Operation Add an new movie
+     * @param movie movie to add
+     * @return movie saved with its id
+     */
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,  // default
             produces = MediaType.APPLICATION_JSON_VALUE   // default
