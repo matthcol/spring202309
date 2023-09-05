@@ -13,6 +13,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.text.MessageFormat;
 import java.util.stream.Stream;
 
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
@@ -94,9 +95,44 @@ public class MovieRepositoryQueries {
 
     @ParameterizedTest
     @ValueSource(strings={"eastwood", "tarantino", "steve mcqueen"})
-    void findByActor(String partName){
+    void findByActorsNameEndingWithIgnoreCaseOrderByYear(String partName){
         movieRepository.findByActorsNameEndingWithIgnoreCaseOrderByYear(partName)
                 .forEach(System.out::println);
     }
+
+    @ParameterizedTest
+    @ValueSource(strings={"% eastwood", "% tarantino", "steve mcqueen"})
+    void findByActor(String namePattern){
+        movieRepository.findByActor(namePattern)
+                .forEach(System.out::println);
+    }
+
+    @Test
+    void findByTitleYear(){
+        String title = "The Man Who Knew Too Much";
+        short year = 1956;
+        movieRepository.findByTitleYear(title, year)
+                .ifPresentOrElse(
+                        movie -> {
+                            System.out.println(movie);
+                            System.out.println(movie.getDirector());
+                            System.out.println(movie.getActors());
+                        },
+                        () -> System.out.println("No Data")
+                );
+    }
+
+    @Test
+    void statsByYear(){
+        movieRepository.statsByYear((short) 1980, (short) 1989)
+                .forEach(stats -> System.out.println(MessageFormat.format(
+                        "{0}: {1} movies, {2} minutes",
+                        stats.getYear(),
+                        stats.getCountMovie(),
+                        stats.getTotalDuration()
+                )));
+    }
+
+
 
 }
