@@ -1,6 +1,7 @@
 package org.example.movieapi.controller;
 
 import org.example.movieapi.entity.Movie;
+import org.example.movieapi.exception.GoofyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +68,11 @@ public class DummyController {
                 .body(
                         Movie.builder().title("Teapot").build()
                 );
+    }
+
+    @GetMapping("goofy")
+    public String goofy(){
+        throw new GoofyException();
     }
 
 }
