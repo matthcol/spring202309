@@ -16,4 +16,10 @@ public interface MovieService {
     List<MovieSimple> getByTitle();
 
     // add: update, setDirector, setActors, delete, stats and other queries
+
+    Optional<MovieDetail> update(int movieId, MovieCreate movieCreate);
+
+    Optional<MovieDetail> setDirector(int movieId, int directorId);
+
+    Optional<MovieDetail> setActors(int movieId, Iterable<Integer> actorIds);
 }
