@@ -88,4 +88,12 @@ class MovieControllerTest {
                 .getById(id);
     }
 
+    // for tests with post, put, patch, delete, add crsf handling
+    //         mockMvc.perform(post(BASE_URL)
+    //                        .with(csrf())
+    //                        .accept(MediaType.APPLICATION_JSON)
+    //                        .contentType(MediaType.APPLICATION_JSON)
+    //                        .content(JSON_CONTENT)
+//                )
+
 }
