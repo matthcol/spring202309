@@ -37,6 +37,8 @@ public class Movie {
     // @Transient
     private Short duration;
 
+    private String posterUri;
+
     @ManyToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name="director_id", nullable = false)
     private Person director;

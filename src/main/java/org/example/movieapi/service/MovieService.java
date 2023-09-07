@@ -15,6 +15,8 @@ public interface MovieService {
 
     List<MovieSimple> getByTitle();
 
+    List<MovieSimple> getTopMovies();
+
     // add: update, setDirector, setActors, delete, stats and other queries
 
     Optional<MovieDetail> update(int movieId, MovieCreate movieCreate);

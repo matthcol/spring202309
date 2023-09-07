@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/movie")
@@ -18,6 +19,11 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
+
+    @GetMapping
+    public List<MovieSimple> getTopMovies(){
+        return movieService.getTopMovies();
+    }
 
     @GetMapping("{id}")
     public MovieDetail getById(@PathVariable("id") int id){

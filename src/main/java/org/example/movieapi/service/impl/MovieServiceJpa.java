@@ -8,9 +8,12 @@ import org.example.movieapi.repository.MovieRepository;
 import org.example.movieapi.repository.PersonRepository;
 import org.example.movieapi.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +45,16 @@ public class MovieServiceJpa implements MovieService {
     @Override
     public List<MovieSimple> getByTitle() {
         return null;
+    }
+
+    // @Transactional() // ReadOnly
+    @Override
+    public List<MovieSimple> getTopMovies() {
+        int actualYear = LocalDate.now().getYear();
+        return movieRepository.findByYearBetween((short) (actualYear - 10), (short) actualYear, Sort.by("year"))
+                .stream()
+                .map(movieEntity -> modelMapper.map(movieEntity, MovieSimple.class))
+                .toList();
     }
 
     @Override

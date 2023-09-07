@@ -21,4 +21,6 @@ public class MovieCreate {
     private short year;
 
     private Short duration;
+
+    private String posterUri;
 }

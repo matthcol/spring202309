@@ -19,7 +19,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     Set<Movie> findByTitleContainingIgnoreCase(String title);
 
     // by year between
-    Stream<Movie> findByYearBetween(short year1, short year2, Sort sort);
+    List<Movie> findByYearBetween(short year1, short year2, Sort sort);
 
     // filmography as an actor
     List<Movie> findByActorsNameEndingWithIgnoreCaseOrderByYear(String partName);
